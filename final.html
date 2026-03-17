@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ACCESS GRANTED</title>
 
 <style>
@@ -12,89 +13,41 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    font-family: 'Poppins', sans-serif;
+    font-family:sans-serif;
     color:white;
     text-align:center;
     overflow:auto;
 }
 
-/* glow background */
-body::before, body::after{
-    content:"";
-    position:fixed;
-    width:300px;
-    height:300px;
-    background:rgba(255,255,255,0.2);
-    border-radius:50%;
-    filter:blur(100px);
-}
-body::before{top:10%; left:10%;}
-body::after{bottom:10%; right:10%;}
-
 /* card */
 .box{
     background:rgba(255,255,255,0.15);
-    padding:50px;
-    border-radius:25px;
-    backdrop-filter:blur(15px);
-    box-shadow:0 10px 40px rgba(0,0,0,0.3);
-    animation:fadeIn 1.5s ease;
+    padding:30px;
+    border-radius:20px;
+    backdrop-filter:blur(10px);
     max-width:90%;
 }
 
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(30px);}
-    to{opacity:1; transform:translateY(0);}
-}
-
-h1{
-    font-size:42px;
-    text-shadow:0 0 10px rgba(255,255,255,0.8);
-}
-
-p{
-    font-size:20px;
-}
-
-/* photo */
 img{
-    width:180px;
+    width:160px;
     border-radius:20px;
-    margin-bottom:20px;
-    box-shadow:0 0 25px rgba(255,255,255,0.6);
+    margin-bottom:15px;
     cursor:pointer;
-    transition:0.3s;
 }
 
-img:hover{
-    transform:scale(1.05);
-}
-
-/* hidden message */
 #secret{
     display:none;
-    margin-top:20px;
-    font-size:22px;
-    animation:fadeIn 1s ease;
+    margin-top:15px;
+    font-size:18px;
 }
 
 /* balloons */
 .balloon{
     position:absolute;
-    width:30px;
-    height:40px;
+    width:25px;
+    height:35px;
     border-radius:50%;
     animation:floatUp 6s linear infinite;
-}
-
-.balloon::after{
-    content:"";
-    position:absolute;
-    width:2px;
-    height:20px;
-    background:white;
-    left:50%;
-    top:40px;
 }
 
 @keyframes floatUp{
@@ -107,29 +60,20 @@ img:hover{
 <body>
 
 <div class="box">
-
-    <img src="photo.jpeg" onclick="reveal()">
+    <img src="photo.jpg" onclick="reveal()">
 
     <h1>🎉 Happy Birthday Guddu 🎉</h1>
 
     <p>You passed the system 😌</p>
     <p>Still annoying… still awesome 😂</p>
 
-    <br>
-
-    <p>But honestly…</p>
-    <p>I’m really glad you exist ❤️</p>
-
-    <!-- hidden message -->
     <div id="secret">
-        <p>😏 btw… you owe me cake now</p>
+        😏 btw… you owe me cake now
     </div>
-
 </div>
 
-<!-- 🎵 music -->
 <audio id="music" loop>
-    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+<source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3">
 </audio>
 
 <script>
@@ -140,20 +84,15 @@ setInterval(()=>{
     b.className="balloon";
     b.style.left=Math.random()*100+"vw";
     b.style.backgroundColor=`hsl(${Math.random()*360},100%,70%)`;
-
     document.body.appendChild(b);
-
     setTimeout(()=>b.remove(),6000);
-},300);
+},400);
 
-/* reveal + play music */
+/* reveal */
 function reveal(){
     document.getElementById("secret").style.display="block";
-
-    const music = document.getElementById("music");
-    music.play().catch(()=>{});
+    document.getElementById("music").play().catch(()=>{});
 }
-
 </script>
 
 </body>
