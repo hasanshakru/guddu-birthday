@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Guddu OS</title>
 
 <style>
@@ -12,7 +14,7 @@ body{
 }
 
 #terminal{
-    padding:20px;
+    padding:15px;
 }
 
 /* start screen */
@@ -28,7 +30,7 @@ body{
     justify-content:center;
     align-items:center;
     z-index:9999;
-    font-size:24px;
+    font-size:22px;
     text-align:center;
     cursor:pointer;
 }
@@ -37,8 +39,16 @@ input{
     background:black;
     border:none;
     color:#00ffcc;
-    font-size:18px;
+    font-size:16px;
     outline:none;
+    width:90%;
+}
+
+button{
+    position:absolute;
+    padding:10px 16px;
+    font-size:14px;
+    cursor:pointer;
 }
 
 .glitch{
@@ -49,12 +59,6 @@ input{
     50%{transform:translate(-2px);}
     100%{transform:translate(2px);}
 }
-
-button{
-    position:absolute;
-    padding:10px 20px;
-    cursor:pointer;
-}
 </style>
 </head>
 
@@ -63,26 +67,22 @@ button{
 <div id="startScreen">Tap to start system 🖥️</div>
 <div id="terminal"></div>
 
-<!-- sounds -->
 <audio id="typeSound" src="https://www.soundjay.com/keyboard/sounds/keyboard-1.mp3"></audio>
 <audio id="successSound" src="https://www.soundjay.com/button/sounds/button-3.mp3"></audio>
 
 <script>
-
 const term = document.getElementById("terminal");
+const startScreen = document.getElementById("startScreen");
 const typeSound = document.getElementById("typeSound");
 const successSound = document.getElementById("successSound");
-const startScreen = document.getElementById("startScreen");
 
 let attempts = 0;
 
-/* START ONLY AFTER CLICK */
-startScreen.addEventListener("click", ()=>{
+startScreen.onclick = ()=>{
     startScreen.style.display="none";
     type();
-});
+};
 
-/* boot */
 const boot = [
 "Booting GudduOS v3.0...",
 "Loading chaos engine...",
@@ -114,7 +114,6 @@ function type(){
     }
 }
 
-/* input */
 function createInput(){
     const input=document.createElement("input");
     term.appendChild(input);
@@ -130,26 +129,21 @@ function createInput(){
     });
 }
 
-/* smart detection */
 function isGuddu(val){
     val = val.toLowerCase().replace(/[^a-z]/g,"");
     return val.includes("guddu");
 }
 
-/* check */
 function check(val){
-
     if(!isGuddu(val)){
         attempts++;
-
-        const roast = [
+        const roast=[
             "Wrong identity 😏",
-            "Still wrong 😂 try again",
+            "Still wrong 😂",
             "Are you even Guddu? 🤨",
-            "System losing patience 😤",
-            "Last chance before system explodes 💀"
+            "System getting angry 😤",
+            "Last chance 💀"
         ];
-
         term.innerHTML += roast[Math.min(attempts-1, roast.length-1)] + "<br>";
         createInput();
     }else{
@@ -158,41 +152,35 @@ function check(val){
     }
 }
 
-/* loading */
 function fakeLoading(){
-    let progress = 0;
-    const line = document.createElement("div");
+    let progress=0;
+    const line=document.createElement("div");
     term.appendChild(line);
 
-    const interval = setInterval(()=>{
-        progress += 10;
-        line.innerHTML = "Verifying: [" + "#".repeat(progress/10) + " ".repeat(10-progress/10) + "]";
+    const interval=setInterval(()=>{
+        progress+=10;
+        line.innerHTML="Verifying: ["+"#".repeat(progress/10)+" ".repeat(10-progress/10)+"]";
 
         if(progress>=100){
             clearInterval(interval);
-            term.innerHTML += "<br>Verification Complete ✔<br>";
+            term.innerHTML+="<br>Verification Complete ✔<br>";
             successSound.play().catch(()=>{});
             setTimeout(spawnButtons,800);
         }
     },200);
 }
 
-/* chaos buttons */
+/* mobile-friendly chaos buttons */
 function spawnButtons(){
 
-    for(let k=0;k<10;k++){
+    for(let k=0;k<8;k++){
         let btn=document.createElement("button");
         btn.innerText="CONTINUE";
-        btn.style.left=Math.random()*90+"vw";
-        btn.style.top=Math.random()*90+"vh";
 
-        btn.onmouseover=()=>{
-            btn.style.left=Math.random()*90+"vw";
-            btn.style.top=Math.random()*90+"vh";
-        };
+        moveBtn(btn);
 
         btn.onclick=()=>{
-            alert("Wrong button 😂");
+            moveBtn(btn);
         };
 
         document.body.appendChild(btn);
@@ -200,14 +188,14 @@ function spawnButtons(){
 
     let real=document.createElement("button");
     real.innerText="CONTINUE";
-    real.style.left="45vw";
-    real.style.top="75vh";
+
+    real.style.left="40vw";
+    real.style.top="70vh";
 
     real.onclick=()=>{
         document.body.classList.add("glitch");
         term.innerHTML+="<br>ACCESS GRANTED...";
         successSound.play().catch(()=>{});
-
         setTimeout(()=>{
             window.location.href="final.html";
         },1500);
@@ -216,6 +204,10 @@ function spawnButtons(){
     document.body.appendChild(real);
 }
 
+function moveBtn(btn){
+    btn.style.left=Math.random()*80+"vw";
+    btn.style.top=Math.random()*80+"vh";
+}
 </script>
 
 </body>
